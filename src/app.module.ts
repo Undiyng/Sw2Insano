@@ -7,7 +7,7 @@ import { CrudModule } from './crud/crud.module';
 @Module({
   imports: [
     CrudModule,
-    MongooseModule.forRoot('mongodb://localhost/backendswii')
+    MongooseModule.forRoot('mongodb+srv://software2:software2@cluster0.7wc3n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
   ],
   controllers: [AppController],
   providers: [AppService],
