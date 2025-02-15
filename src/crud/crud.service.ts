@@ -3,14 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './interfaces/user.interface';
 import { CreateUserDTO } from './dto/user.dto';
-import { Shop } from './interfaces/shop.interface';
-import { CreateShopDTO } from './dto/shop.dto';
+import { Restaurant } from './interfaces/restaurant.interface';
+import { CreateRestaurantDTO } from './dto/restaurant.dto';
 
 @Injectable()
 export class CrudService {
   constructor(
     @InjectModel('User') private readonly userModel: Model<User>,
-    @InjectModel('Shop') private readonly shopModel: Model<Shop>
+    @InjectModel('Restaurant') private readonly restaurantModel: Model<Restaurant>
   ) {}
 
   //Serivicios para usuarios
@@ -42,32 +42,32 @@ export class CrudService {
   }
 
 
-  //Serivicios para negocios
-  async createShop(shopDTO: CreateShopDTO): Promise<Shop> {
-    const newShop = await this.shopModel.create(shopDTO);
-    return await newShop.save();
+  //Serivicios para restaurantes
+  async createRestaurant(restaurantDTO: CreateRestaurantDTO): Promise<Restaurant> {
+    const newRestaurant = await this.restaurantModel.create(restaurantDTO);
+    return await newRestaurant.save();
   }
 
-  async getAllShops(): Promise<Shop[]> {
-    const shopsFound = await this.shopModel.find();
-    return shopsFound;
+  async getAllRestaurants(): Promise<Restaurant[]> {
+    const restaurantsFound = await this.restaurantModel.find();
+    return restaurantsFound;
   }
 
-  async getShop(shopID: string): Promise<Shop> {
-    const shop = await this.shopModel.findById(shopID);
-    return shop;
+  async getRestaurant(restaurantID: string): Promise<Restaurant> {
+    const restaurant = await this.restaurantModel.findById(restaurantID);
+    return restaurant;
   }
 
-  async updateShop(shopID: string, shopDTO: CreateShopDTO): Promise<Shop> {
+  async updateRestaurant(restaurantID: string, restaurantDTO: CreateRestaurantDTO): Promise<Restaurant> {
     //el valor {new:true} se usa para retornar la tienda despues de actualizarla
-    const shopUpdated = await this.shopModel.findByIdAndUpdate(shopID, shopDTO, {new:true});
-    return shopUpdated;
+    const restaurantUpdated = await this.restaurantModel.findByIdAndUpdate(restaurantID, restaurantDTO, {new:true});
+    return restaurantUpdated;
   }
 
-  async deleteShop(shopID: string): Promise<Shop> {
+  async deleteRestaurant(restaurantID: string): Promise<Restaurant> {
     //el valor {new:false} se usa para retornar la tienda antes de ser borrada
-    const shopDeleted = await this.shopModel.findByIdAndDelete(shopID, {new:false});
-    return shopDeleted;
+    const restaurantDeleted = await this.restaurantModel.findByIdAndDelete(restaurantID, {new:false});
+    return restaurantDeleted;
   }
 
 }

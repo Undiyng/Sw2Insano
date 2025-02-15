@@ -3,12 +3,12 @@ import { CrudController } from './crud.controller';
 import { CrudService } from './crud.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './schemas/user.schema';
-import { ShopSchema } from './schemas/shop.schema';
+import { RestaurantSchema } from './schemas/restaurant.schema';
 
 @Module({
   imports:[MongooseModule.forFeature([
     { name: 'User', schema: UserSchema },
-    { name: 'Shop', schema: ShopSchema }
+    { name: 'Restaurant', schema: RestaurantSchema }
   ])],
   controllers: [CrudController],
   providers: [CrudService]

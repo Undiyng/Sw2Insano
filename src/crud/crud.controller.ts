@@ -1,7 +1,7 @@
 import { Controller, Post, Res, Body, HttpStatus, Get, Param, Put, Delete } from '@nestjs/common';
 import { CrudService } from './crud.service';
 import { CreateUserDTO } from './dto/user.dto';
-import { CreateShopDTO } from './dto/shop.dto';
+import { CreateRestaurantDTO } from './dto/restaurant.dto';
 
 @Controller('...')
 export class CrudController {
@@ -51,47 +51,45 @@ export class CrudController {
     });
   }
 
-  //Direciones de las tiendas
-  @Post('createShop')
-  async createShop(@Res() resp, @Body() shopDTO: CreateShopDTO) {
-    const newShop = await this.crudService.createShop(shopDTO);
+  //Direciones de los restaurantes
+  @Post('createRestaurant')
+  async createRestaurant(@Res() resp, @Body() restaurantDTO: CreateRestaurantDTO) {
+    const newRestaurant = await this.crudService.createRestaurant(restaurantDTO);
     return resp.status(HttpStatus.OK).json({
-      message: 'Tienda Creada',
-      newShop: newShop
+      message: 'Restaurante Creado',
+      newRestaurant
     });
   }
-  @Get('getShops')
-  async getAllShops(@Res() resp) {
-    const shopsFound = await this.crudService.getAllShops();
+  @Get('getRestaurants')
+  async getAllRestaurants(@Res() resp) {
+    const restaurantsFound = await this.crudService.getAllRestaurants();
     return resp.status(HttpStatus.OK).json({
-      message: 'Todas las Tiendas',
-      shopsFound: shopsFound
+      message: 'Todos los Restaurantes',
+      restaurantsFound
     });
   }
-  @Get('getShops/:id')
-  async getShop(@Res() resp, @Param('id') shopID: string) {
-    const shopFound = await this.crudService.getShop(shopID);
+  @Get('getRestaurants/:id')
+  async getRestaurant(@Res() resp, @Param('id') restaurantID: string) {
+    const restaurantFound = await this.crudService.getRestaurant(restaurantID);
     return resp.status(HttpStatus.OK).json({
       message: 'Tienda Encontrada',
-      shopFound: shopFound
+      restaurantFound
     });
   }
-  @Put('updateShop/:id')
-  async updateShop(@Res() resp, @Param('id') shopID: string, @Body() shopDTO: CreateShopDTO) {
-    const shopUpdated = await this.crudService.updateShop(shopID, shopDTO);
+  @Put('updateRestaurant/:id')
+  async updateRestaurant(@Res() resp, @Param('id') restaurantID: string, @Body() restaurantDTO: CreateRestaurantDTO) {
+    const restaurantUpdated = await this.crudService.updateRestaurant(restaurantID, restaurantDTO);
     return resp.status(HttpStatus.OK).json({
       message: 'Tienda Actualizada',
-      shopUpdated: shopUpdated
+      restaurantUpdated
     });
   }
-  @Delete('deleteShop/:id')
-  async deleteShop(@Res() resp, @Param('id') shopID: string) {
-    const shopDeleted = await this.crudService.deleteShop(shopID);
+  @Delete('deleteRestaurant/:id')
+  async deleteRestaurant(@Res() resp, @Param('id') restaurantID: string) {
+    const restaurantDeleted = await this.crudService.deleteRestaurant(restaurantID);
     return resp.status(HttpStatus.OK).json({
       message: 'Tienda Borrada',
-      shopDeleted: shopDeleted
+      restaurantDeleted
     });
   }
-
-
 }
