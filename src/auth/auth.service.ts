@@ -21,11 +21,20 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    const payload = { email: user.email, sub: user._id };
+  async loginFromMongoose(user: any) {
+    const userDoc = user._doc; 
+    const { email, _id } = userDoc;
+    const payload = { email, sub: _id };
+  
     return {
       access_token: this.jwtService.sign(payload),
-      idUser: user._id
+    };
+  }
+
+  async login(user: any) {
+    const payload = { email: user.email, sub: user._id.toString() };
+    return {
+      access_token: this.jwtService.sign(payload),
     };
   }
 

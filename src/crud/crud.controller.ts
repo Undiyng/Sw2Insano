@@ -4,6 +4,8 @@ import { CreateUserDTO } from './dto/user.dto';
 import { CreateRestaurantDTO } from './dto/restaurant.dto';
 import { AuthService } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { loginDto } from 'src/auth/login.dto';
+
 
 @Controller('...')
 export class CrudController {
@@ -20,6 +22,21 @@ export class CrudController {
     const token = await this.authService.login(newUser);
     return resp.status(HttpStatus.OK).json({
       message: 'Usuario Creado',
+      token: token.access_token
+    });
+  }
+
+  @Post('login')
+  async login(@Res() resp, @Body() loginDTO:loginDto){
+    const user = await this.authService.validateUser(loginDTO.email, loginDTO.password);
+    if (!user) {
+      return resp.status(HttpStatus.UNAUTHORIZED).json({
+        message: 'Credenciales inválidas',
+      });
+    }
+    const token = await this.authService.loginFromMongoose(user);
+    return resp.status(HttpStatus.OK).json({
+      message: 'Inicio de sesión exitoso',
       token: token.access_token
     });
   }
