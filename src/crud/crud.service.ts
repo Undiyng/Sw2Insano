@@ -5,6 +5,7 @@ import { User } from './interfaces/user.interface';
 import { CreateUserDTO } from './dto/user.dto';
 import { Restaurant } from './interfaces/restaurant.interface';
 import { CreateRestaurantDTO } from './dto/restaurant.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CrudService {
@@ -15,7 +16,12 @@ export class CrudService {
 
   //Serivicios para usuarios
   async createUser(userDTO: CreateUserDTO): Promise<User> {
-    const newUser = await this.userModel.create(userDTO);
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(userDTO.password, salt);
+    const newUser = new this.userModel({
+      ...userDTO,
+      password: hashedPassword,
+    });
     return await newUser.save();
   }
 
@@ -26,6 +32,11 @@ export class CrudService {
 
   async getUser(userID: string): Promise<User> {
     const user = await this.userModel.findById(userID);
+    return user;
+  }
+
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.userModel.findOne({ email });
     return user;
   }
 
@@ -41,8 +52,14 @@ export class CrudService {
     return userDeleted;
   }
 
-
-  //Serivicios para restaurantes
+  async getRestaurantsLiked(userID: string): Promise<Restaurant[]> {
+    // Populate the 'favorites' field with Restaurant documents
+    const user = await this.userModel.findById(userID).populate('favorites');
+    
+    // Assert that the populated 'favorites' field is of type Restaurant[]
+    return user.favorites as unknown as Restaurant[];
+}
+  //Servicios para restaurantes
   async createRestaurant(restaurantDTO: CreateRestaurantDTO): Promise<Restaurant> {
     const newRestaurant = await this.restaurantModel.create(restaurantDTO);
     return await newRestaurant.save();
@@ -69,5 +86,4 @@ export class CrudService {
     const restaurantDeleted = await this.restaurantModel.findByIdAndDelete(restaurantID, {new:false});
     return restaurantDeleted;
   }
-
 }
