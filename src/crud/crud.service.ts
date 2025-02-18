@@ -58,7 +58,30 @@ export class CrudService {
     
     // Assert that the populated 'favorites' field is of type Restaurant[]
     return user.favorites as unknown as Restaurant[];
-}
+  }
+
+  async getRestaurantsShowed(userID: string): Promise<Restaurant[]> {
+    // Populate the 'historial' field with Restaurant documents
+    const user = await this.userModel.findById(userID).populate('historial');
+    
+    // Assert that the populated 'historial' field is of type Restaurant[]
+    return user.historial as unknown as Restaurant[];
+  }
+
+  async deleteRestaurantsFromShowed(userID: string, restaurantIDs: string[]): Promise<{ resultado: string }> {
+    await this.userModel.findByIdAndUpdate(userID, {
+      $pull: { historial: { $in: restaurantIDs } }
+    });
+    return { resultado: 'Restaurantes eliminados del historial' };
+  }
+
+  async deleteRestaurantFromLiked(userID: string, restaurantIDs: string[]): Promise<{ resultado: string }> {
+    await this.userModel.findByIdAndUpdate(userID, {
+      $pull: { favorites: { $in: restaurantIDs } }
+    });
+    return { resultado: 'Restaurantes eliminados de favoritos' };
+  }
+
   //Servicios para restaurantes
   async createRestaurant(restaurantDTO: CreateRestaurantDTO): Promise<Restaurant> {
     const newRestaurant = await this.restaurantModel.create(restaurantDTO);
