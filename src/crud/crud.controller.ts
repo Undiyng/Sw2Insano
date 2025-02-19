@@ -4,7 +4,7 @@ import { CreateUserDTO } from './dto/user.dto';
 import { CreateRestaurantDTO } from './dto/restaurant.dto';
 import { AuthService } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { loginDto } from 'src/auth/login.dto';
+import { loginDto } from '../auth/login.dto';
 import { CreateEscaneoDTO } from './dto/escaneo.dto';
 
 @Controller('...')
