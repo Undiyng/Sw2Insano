@@ -133,6 +133,16 @@ export class CrudController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('getRestaurantsShowed/:idUser')
+  async getRestaurantsShowed(@Res() resp, @Param('idUser') userID: string) {
+    const restaurantsShowed = await this.crudService.getRestaurantsShowed(userID);
+    return resp.status(HttpStatus.OK).json({
+      message: 'Historial de Restaurantes Vistos',
+      restaurants: restaurantsShowed
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Put('updateRestaurant/:id')
   async updateRestaurant(@Res() resp, @Param('id') restaurantID: string, @Body() restaurantDTO: CreateRestaurantDTO) {
     const restaurantUpdated = await this.crudService.updateRestaurant(restaurantID, restaurantDTO);
@@ -150,5 +160,19 @@ export class CrudController {
       message: 'Tienda Borrada',
       restaurantDeleted: restaurantDeleted
     });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('deleteRestaurantsFromShowed/:idUser')
+  async deleteRestaurantsFromShowed(@Res() resp, @Param('idUser') userID: string, @Body() body: { idRestaurants: string[] }) {
+    const result = await this.crudService.deleteRestaurantsFromShowed(userID, body.idRestaurants);
+    return resp.status(HttpStatus.OK).json(result);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('deleteRestaurantFromLiked/:idUser')
+  async deleteRestaurantFromLiked(@Res() resp, @Param('idUser') userID: string, @Body() body: { idRestaurants: string[] }) {
+    const result = await this.crudService.deleteRestaurantFromLiked(userID, body.idRestaurants);
+    return resp.status(HttpStatus.OK).json(result);
   }
 }
