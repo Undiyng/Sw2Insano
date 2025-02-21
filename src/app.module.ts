@@ -8,7 +8,7 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     CrudModule,
-    MongooseModule.forRoot('mongodb+srv://software2:software2@cluster0.7wc3n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+    MongooseModule.forRoot('mongodb://172.26.58.38:27017/nest')
   ],
   controllers: [AppController],
   providers: [AppService],
