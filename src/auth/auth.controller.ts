@@ -32,7 +32,7 @@ export class AuthController {
     const token = await this.authService.loginFromMongoose(user);
     return resp.status(HttpStatus.OK).json({
       message: 'Inicio de sesión exitoso',
-      token: token.access_token
+      token: token.access_token,
     });
   }
 }
