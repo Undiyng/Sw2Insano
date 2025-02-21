@@ -89,32 +89,36 @@ export class CrudService {
   }
 
   async getRestaurantsLiked(userID: string): Promise<Restaurant[]> {
-    // Populate the 'favorites' field with Restaurant documents
-    const user = await this.userModel.findById(userID).populate('favorites');
-    
-    // Assert that the populated 'favorites' field is of type Restaurant[]
-    return user.favorites as unknown as Restaurant[];
+    const user = await this.userModel.findById(userID);
+    if (!user || !user.favorites.length) {
+      return [];
+    }
+    const restaurantsLiked = await this.restaurantModel.find({ _id: { $in: user.favorites } });
+    return restaurantsLiked;
   }
 
   async getRestaurantsShowed(userID: string): Promise<Restaurant[]> {
-    // Populate the 'historial' field with Restaurant documents
-    const user = await this.userModel.findById(userID).populate('historial');
-    
-    // Assert that the populated 'historial' field is of type Restaurant[]
-    return user.historial as unknown as Restaurant[];
+    const user = await this.userModel.findById(userID);
+    if (!user || !user.historial.length) {
+      return [];
+    }
+    const restaurantsShowed = await this.restaurantModel.find({ _id: { $in: user.historial } });
+    return restaurantsShowed;
   }
 
   async deleteRestaurantsFromShowed(userID: string, restaurantIDs: string[]): Promise<{ resultado: string }> {
-    await this.userModel.findByIdAndUpdate(userID, {
-      $pull: { historial: { $in: restaurantIDs } }
-    });
+    await this.userModel.findByIdAndUpdate(
+      userID,
+      { $pull: { historial: { $in: restaurantIDs } } }
+    );
     return { resultado: 'Restaurantes eliminados del historial' };
   }
 
   async deleteRestaurantFromLiked(userID: string, restaurantIDs: string[]): Promise<{ resultado: string }> {
-    await this.userModel.findByIdAndUpdate(userID, {
-      $pull: { favorites: { $in: restaurantIDs } }
-    });
+    await this.userModel.findByIdAndUpdate(
+      userID,
+      { $pull: { favorites: { $in: restaurantIDs } } }
+    );
     return { resultado: 'Restaurantes eliminados de favoritos' };
   }
 
