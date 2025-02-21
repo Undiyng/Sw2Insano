@@ -7,6 +7,7 @@ import { AuthService } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { loginDto } from '../auth/login.dto';
 import { CreateEscaneoDTO } from './dto/escaneo.dto';
+import { CreateUserSwaggerDTO } from './dto/create-user-swagger.dto';
 
 @ApiTags('...')
 @Controller('...')
@@ -20,13 +21,17 @@ export class CrudController {
 
   @Post('createUser')
   @ApiOperation({ summary: 'Create a new user' })
-  @ApiBody({ type: CreateUserDTO })
-  @ApiResponse({ status: 200, description: 'User created successfully.', schema: {
-    example: {
-      message: 'Usuario Creado',
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+  @ApiBody({ type: CreateUserSwaggerDTO })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'User created successfully.', 
+    schema: {
+      example: {
+        message: 'Usuario Creado',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+      },
     },
-  }})
+  })
   @ApiResponse({ status: 400, description: 'Bad request.' })
   async createUser(@Res() resp, @Body() userDTO: CreateUserDTO) {
     const newUser = await this.crudService.createUser(userDTO);
