@@ -1,5 +1,5 @@
 import { Controller, Post, Res, Body, HttpStatus, Get, Param, Put, Delete, UseGuards, Request } from '@nestjs/common';
-import { ApiTags, ApiResponse, ApiOperation, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger'; // Asegúrate de importar ApiBearerAuth
+import { ApiTags, ApiResponse, ApiOperation, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { CrudService } from './crud.service';
 import { CreateUserDTO } from './dto/user.dto';
 import { CreateRestaurantDTO } from './dto/restaurant.dto';
