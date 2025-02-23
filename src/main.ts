@@ -29,11 +29,6 @@ async function bootstrap() {
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.11.1/swagger-ui-standalone-preset.js',
     ],
   });
-  app.enableCors({
-  origin: 'https://backend-swii.vercel.app/',
-  methods: 'GET,HEAD,PUT,POST,DELETE',
-  allowedHeaders: 'Content-Type, Accept',
-  });
 
   await app.listen(process.env.PORT ?? 3200);
 }
