@@ -4,7 +4,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
   const config = new DocumentBuilder()
     .setTitle('API Documentation')
     .setDescription('The API description')
@@ -30,7 +29,11 @@ async function bootstrap() {
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.11.1/swagger-ui-standalone-preset.js',
     ],
   });
-  
+  app.enableCors({
+  origin: 'https://backend-swii.vercel.app/',
+  methods: 'GET,HEAD,PUT,POST,DELETE',
+  allowedHeaders: 'Content-Type, Accept',
+  });
 
   await app.listen(process.env.PORT ?? 3200);
 }
