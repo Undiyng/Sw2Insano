@@ -9,8 +9,8 @@ import { loginDto } from '../auth/login.dto';
 import { CreateEscaneoDTO } from './dto/escaneo.dto';
 import { CreateUserSwaggerDTO } from './dto/create-user-swagger.dto';
 
-@ApiTags('...')
-@Controller('...')
+@ApiTags('api')
+@Controller('api')
 @ApiBearerAuth('JWT-auth') 
 export class CrudController {
 
