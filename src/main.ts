@@ -7,8 +7,8 @@ async function bootstrap() {
   
   // Habilitar CORS con configuración explícita
   app.enableCors({
-    origin: '*',
-    methods: 'GET,POST,PUT,DELETE',
+    origin: '*', 
+    methods: 'GET,POST,PUT,DELETE,OPTIONS', 
     allowedHeaders: 'Content-Type, Accept, Authorization',
     credentials: true,
   });
@@ -39,6 +39,7 @@ async function bootstrap() {
     ],
   });
 
-  await app.listen(process.env.PORT ?? 3200);
+  // Iniciar la aplicación en el puerto asignado por Vercel
+  await app.listen(process.env.PORT || 3200);
 }
 bootstrap();
